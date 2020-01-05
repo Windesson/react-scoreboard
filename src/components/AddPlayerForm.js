@@ -1,31 +1,33 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {Consumer} from './Context/index';
+ 
+const AddPlayerForm = () => {
 
-class AddPlayerForm extends Component {
+    const playerInput = React.createRef();
 
-    playerInput = React.createRef();
+    return ( <Consumer>
+          { context => { 
 
-    handleSubmit = (e) => {
-       e.preventDefault();
-       this.props.handleAddPlayer(this.playerInput.current.value);
-       e.currentTarget.reset();
-    }
+            const handleSubmit = (e) => {
+                    e.preventDefault();
+                    context.actions.addPlayer(playerInput.current.value);
+                    e.currentTarget.reset();
+                  }
 
-    render() {
-        return (
-            <form onSubmit={this.handleSubmit}>
+            return (
+            <form onSubmit={handleSubmit}>
               <input 
                 type="text"
-                ref={this.playerInput} 
+                ref={playerInput} 
                 placeholder="Enter a players name" 
               />
-
               <input 
                 type="submit" 
                 value="Add Player" 
               />
             </form>
-        );
-    }
+          )}}
+        </Consumer>);
 }
 
 export default AddPlayerForm;
